@@ -116,4 +116,5 @@ Please see the [Project Wiki](https://github.com/maxhq/zabbix-backup/wiki).
 - sudo -u postgres psql zabbix < /var/backup/zabbix_cfg_localhost_20200730-1810_db-psql-5.0.1.sql
 
 - echo "SELECT timescaledb_post_restore();" | sudo -u postgres psql zabbix
+- systemctl restart postgresql-12.service 
 - systemctl start zabbix-server.service
