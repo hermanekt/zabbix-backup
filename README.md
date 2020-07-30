@@ -97,3 +97,23 @@ Please see the [Project Wiki](https://github.com/maxhq/zabbix-backup/wiki).
   variables (DATEBIN etc) for commands that use to be in $PATH
 
 **0.2.0 (2011-11-05)**
+
+## EXAMPLE
+**BACKUP**
+- git clone https://github.com/hermanekt/zabbix-backup/blob/master/zabbix-dump
+- ./zabbix-dump -t psql -H localhost -P 5432 -o /var/backup
+
+**RESTORE**
+
+- systemctl stop zabbix-server.service
+- sudo -u postgres dropdb zabbix
+- sudo -u postgres createdb -O zabbix zabbix
+
+- echo "CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;" | sudo -u postgres psql zabbix
+- echo "SELECT timescaledb_pre_restore();" | sudo -u postgres psql zabbix
+
+- gunzip /var/backup/zabbix_cfg_localhost_20200730-1810_db-psql-5.0.1.sql.gz
+- sudo -u postgres psql zabbix < /var/backup/zabbix_cfg_localhost_20200730-1810_db-psql-5.0.1.sql
+
+- echo "SELECT timescaledb_post_restore();" | sudo -u postgres psql zabbix
+- systemctl start zabbix-server.service
